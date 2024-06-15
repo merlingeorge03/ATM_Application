@@ -6,19 +6,19 @@ namespace ATM_Application
     internal class Account
     {
         private string _accHolderName;
-        private int _accno;
+        private int _accNo;
         private float _annualIntrRate;
         private float _balance;
-        private List<string> transactions;
+        private List<string> transactions = new List<string>();
 
         //Initiallize user values using constructor
         public Account(string accHolderName, int accno, float annualIntrRate, float initialBalance)
         {
             _accHolderName = accHolderName;
-            _accno = accno;
+            _accNo = accno;
             _annualIntrRate = annualIntrRate;
             _balance = initialBalance;
-            transactions = new List<string>();
+            transactions.Add($"Account created with initial balance: {initialBalance:C}");
         }
 
         //Modify the balance amount and transaction details when user opts for deposit amount
@@ -38,7 +38,7 @@ namespace ATM_Application
         //To get the Account number
         public int GetAccountNumber()
         {
-            return _accno;
+            return _accNo;
         }
 
         //To get the Annual Interest Rate 

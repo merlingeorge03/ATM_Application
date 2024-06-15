@@ -4,6 +4,9 @@ namespace ATM_Application
 {
     internal class AtmApplication
     {
+        private Bank _bank = new Bank();
+        private Account selectedAccount;
+
         public void displayMainMenu()
         {
             int choice;
@@ -23,7 +26,7 @@ namespace ATM_Application
                         createAccount();
                         break;
                     case 2:
-                        //selectAccount
+                        selectAccount();
                         break;
                     case 3:
                         //ExitApplication
@@ -38,7 +41,6 @@ namespace ATM_Application
                             if (exitChoice != "n")
                             {
                                 Console.WriteLine("Press y to exit and n to continue operations");
-
                             }
                             displayMainMenu();
                         }
@@ -64,18 +66,23 @@ namespace ATM_Application
             //Check if the user entered the same account number as default account number
             if (accountNumber >= 100 && accountNumber <= 110)
             {
-                Console.WriteLine("This Account Number already exists in the database. Please enter another number");
-                Console.WriteLine("Enter Account Number (Account number must be between 110 and 1000)");
+                Console.WriteLine("Account Number already exists. Please enter another Account number");
                 accountNumber = int.Parse(Console.ReadLine());
             }
 
             Console.WriteLine("Enter Annual Interest Rate (Must be less than 3.0%)");
-            float interestRate = float.Parse(Console.ReadLine());
+            float interestRate= float.Parse(Console.ReadLine());
+            if (interestRate > 3)
+            {
+                Console.WriteLine("Annual Interest Rate must be less than 3.0%)");
+            }
+            
 
             Console.WriteLine("Enter Initial Balance");
             float initialBalance = float.Parse(Console.ReadLine());
 
-            // Account class to be called and feed the data
+            Account newAccount = new Account(name, accountNumber, interestRate, initialBalance);
+            _bank.AddAccount(newAccount);
 
             Console.WriteLine("Account created successfully.");
 
@@ -88,7 +95,18 @@ namespace ATM_Application
 
             //if account selected is not null (exists), then do the below actions
             //welcome message to be printed along with the name
-            //displayAccountMenu();
+            selectedAccount = _bank.GetAccount(accountNumber);
+
+            if (selectedAccount != null)
+            {
+                Console.WriteLine($"----------------------------------------------");
+                Console.WriteLine($"Welcome {selectedAccount.GetAccountHolderName()}");
+                DisplayAccountMenu();
+            }
+            else
+            {
+                Console.WriteLine("Account not found.");
+            }
         }
 
         private void DisplayAccountMenu()
@@ -108,16 +126,16 @@ namespace ATM_Application
                 switch (choice)
                 {
                     case 1:
-                        //CheckBalance method to be called
+                        CheckBalance();
                         break;
                     case 2:
-                        //Deposit method to be called 
+                        Deposit();
                         break;
                     case 3:
-                        //Withdraw method to be called 
+                        Withdraw();
                         break;
                     case 4:
-                        //DisplayTransactions method to be called 
+                        DisplayTransactions();
                         break;
                     case 5:
                         Console.WriteLine("Exiting Account Menu...");
@@ -127,6 +145,42 @@ namespace ATM_Application
                         break;
                 }
             } while (choice != 5);
+        }
+
+        private void CheckBalance()
+        {
+            Console.WriteLine($"Current Balance: {selectedAccount.GetBalance()}");
+        }
+
+        private void Deposit()
+        {
+            Console.WriteLine("Enter the amount");
+            float amount = float.Parse(Console.ReadLine());
+            selectedAccount.Deposit(amount);
+            Console.WriteLine("Amount deposited!!");
+        }
+
+        private void Withdraw()
+        {
+            Console.WriteLine("Enter the amount to be withdrawn");
+            float amount = float.Parse(Console.ReadLine());
+            selectedAccount.Withdraw(amount);
+            Console.WriteLine("Amount Withdrawn!!");
+        }
+
+        private void DisplayTransactions()
+        {
+            Console.WriteLine("-------Transaction Summary-------");
+            Console.WriteLine($"Account Number: {selectedAccount.GetAccountNumber()}");
+            Console.WriteLine($"Account Holder Name: {selectedAccount.GetAccountHolderName()}");
+            Console.WriteLine($"Annual Interest Rate: {selectedAccount.GetAnnualInterestRate()}");
+            Console.WriteLine($"Account Balance: {selectedAccount.GetBalance()}");
+            foreach (var transaction in selectedAccount.GetTransactions())
+            {
+                Console.WriteLine(transaction);
+            }
+            Console.WriteLine("Press Enter to continue");
+            Console.ReadLine();
         }
     }
 }
