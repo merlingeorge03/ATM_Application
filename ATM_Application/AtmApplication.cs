@@ -7,7 +7,8 @@ namespace ATM_Application
         public void displayMainMenu()
         {
             int choice;
-            Console.WriteLine("========================================= WELCOME TO ATM APPLICATION =========================================");
+            string exitChoice;
+            
             do
             {
                 Console.WriteLine("============= ATM MAIN MENU =============");
@@ -19,16 +20,45 @@ namespace ATM_Application
                 switch (choice)
                 {
                     case 1:
+                        //createAccount
                         break;
                     case 2:
+                        //selectAccount
                         break;
                     case 3:
+                        //ExitApplication
+                        Console.WriteLine("Do you want to exit? (y/n)");
+                        exitChoice = Console.ReadLine().ToLower();
+                        if (exitChoice == "y")
+                        {
+                            Console.WriteLine("THANK YOU FOR CHOOSING THE ATM APPLICATION !!");
+                        }
+                        else 
+                        {
+                            if (exitChoice != "n")
+                            {
+                                Console.WriteLine("Press y to exit and n to continue operations");
+                              
+                            }
+                            displayMainMenu();     
+                        
+                        }
                         break;
                     default:
+                        Console.WriteLine("Invalid option, Please try again !!");
                         break;
 
                 }
             } while (choice != 3);
+        }
+
+        public void createAccount()
+        {
+
+        }
+        public void selectAccount()
+        {
+
         }
     }
 }

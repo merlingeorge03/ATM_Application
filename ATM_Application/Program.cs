@@ -6,6 +6,7 @@ namespace ATM_Application
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("========================================= WELCOME TO ATM APPLICATION =========================================");
             AtmApplication app = new AtmApplication();
             app.displayMainMenu();
         }
