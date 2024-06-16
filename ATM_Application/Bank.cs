@@ -19,21 +19,19 @@ namespace ATM_Application
             }
         }
 
+        //Method to retrieve the account numbers
         public Account GetAccount(int accountNumber)
         {
             return _accountList.FirstOrDefault(account => account.GetAccountNumber() == accountNumber);
         }
 
-        public Account GetAccount(string clientName)
-        {
-            return _accountList.FirstOrDefault(account => account.GetAccountHolderName() == clientName);
-        }
-
+        //Method to add created account to the list
         public void AddAccount(Account account)
         {
             _accountList.Add(account);
         }
 
+        //Method to check if the account already exists in the list
         public bool IsAccountNumberUnique(int accountNumber)
         {
             foreach (Account account in _accountList)
@@ -45,7 +43,5 @@ namespace ATM_Application
             }
             return true;
         }
-
-
     }
 }

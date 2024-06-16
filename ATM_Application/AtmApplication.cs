@@ -64,57 +64,68 @@ namespace ATM_Application
         public void createAccount()
         {
             int accountNumber;
+            float interestRate;
+            float initialBalance;
+
+            //ACCOUNT HOLDER NAME
             Console.WriteLine("====== 1. CREATE ACCOUNT MENU =====");
             Console.WriteLine("Enter Account Holder Name");
             string name = Console.ReadLine();
-
+            //condition to check if the entered name is valid
             if ((name != null) && !IsValidName(name))
             {
                 Console.WriteLine("Invalid name entered !!! (Special characters, digits or white spaces not allowed.)");
                 return;
-
             }
 
+            //ACCOUNT NUMBER 
             Console.WriteLine("Enter Account Number (Account number must be between 100 and 1000)");
-
             //Checking if the entered account number is a valid integer  
             if (!int.TryParse(Console.ReadLine(), out accountNumber))
             {
                 Console.WriteLine("Invalid input. Please enter a number(100-1000).");
                 return;
-
             }
+            //checking if the account number entered is within the allowed number limit (100-1000)
             if (accountNumber < 100 || accountNumber > 1000)
             {
                 Console.WriteLine("Account number must be between 100 and 1000.");
                 return;
             }
+            //Checking if the entered account number is already present in the default user list
             if (!_bank.IsAccountNumberUnique(accountNumber))
             {
                 Console.WriteLine("Account number already exists.");
                 return;
             }
 
+            //ANNUAL INTEREST RATE 
             Console.WriteLine("Enter Annual Interest Rate (Must be less than 3.0%)");
-            float interestRate = float.Parse(Console.ReadLine());
-            if (interestRate > 3)
+
+            if (!float.TryParse(Console.ReadLine(), out interestRate) || interestRate > 3.0f)
             {
-                Console.WriteLine("Annual Interest Rate must be less than 3.0%)");
+                Console.WriteLine("Invalid input. Interest rate must be less than or equal to 3%.");
+                return;
             }
 
-
+            //INITIAL BALANCE
             Console.WriteLine("Enter Initial Balance");
-            float initialBalance = float.Parse(Console.ReadLine());
+            if (!float.TryParse(Console.ReadLine(), out initialBalance) || initialBalance < 0)
+            {
+                Console.WriteLine("Invalid input. Please enter a valid balance.");
+                return;
+            }
 
+            //CREATE ACCOUNT
             Account newAccount = new Account(name, accountNumber, interestRate, initialBalance);
             _bank.AddAccount(newAccount);
-
             Console.WriteLine("Account created successfully.");
 
         }
+
         public void selectAccount()
         {
-            Console.WriteLine("====== 2. SELECT ACCOUNT =======");
+            Console.WriteLine("\n====== 2. SELECT ACCOUNT =======");
             Console.WriteLine("Enter Account Number (Account number must be between 100 and 1000)");
             int accountNumber = int.Parse(Console.ReadLine());
 
@@ -130,7 +141,7 @@ namespace ATM_Application
             }
             else
             {
-                Console.WriteLine("Account not found.");
+                Console.WriteLine("Account not found !!!");
             }
         }
 
@@ -139,7 +150,7 @@ namespace ATM_Application
             int choice;
             do
             {
-                Console.WriteLine("------- ACCOUNT MENU -------");
+                Console.WriteLine("\n------- ACCOUNT MENU -------");
                 Console.WriteLine("Choose from the following options.");
                 Console.WriteLine("1. Check Balance");
                 Console.WriteLine("2. Deposit");
@@ -195,7 +206,7 @@ namespace ATM_Application
 
         private void DisplayTransactions()
         {
-            Console.WriteLine("-------Transaction Summary-------");
+            Console.WriteLine("\n-------Transaction Summary-------");
             Console.WriteLine($"Account Number: {selectedAccount.GetAccountNumber()}");
             Console.WriteLine($"Account Holder Name: {selectedAccount.GetAccountHolderName()}");
             Console.WriteLine($"Annual Interest Rate: {selectedAccount.GetAnnualInterestRate()}");
@@ -219,7 +230,7 @@ namespace ATM_Application
                 }
             }
             return true;
-            
+
         }
     }
 

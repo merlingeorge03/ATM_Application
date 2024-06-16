@@ -53,19 +53,7 @@ namespace ATM_Application
             return _balance;
         }
 
-        //To get the monthly Interest
-        public float GetMonthlyInterest()
-        {
-            return _balance * (_annualIntrRate / 12 / 100);
-        }
-
-        //To get monthly interest rate
-        public float GetMonthlyInterestRate()
-        {
-            return _annualIntrRate / 12;
-        }
-
-
+        //Setter method for updating the interest rate
         public void SetAnnualInterestRate(float annualIntrRate)
         {
             _annualIntrRate = annualIntrRate;
