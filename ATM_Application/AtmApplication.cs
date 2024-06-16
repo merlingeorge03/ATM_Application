@@ -174,7 +174,7 @@ namespace ATM_Application
                         DisplayTransactions();
                         break;
                     case 5:
-                        Console.WriteLine("Exiting Account Menu...");
+                        Console.WriteLine("Exiting from account...!!!");
                         break;
                     default:
                         Console.WriteLine("Invalid choice. Try again.");
