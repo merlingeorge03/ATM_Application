@@ -15,5 +15,5 @@ The ATM **Main Menu** consist of the following options:
   	
 3.	Exit: allows the user to exit the application
 
-Link to video presentation : https://conestogac.zoom.us/recording/detail?meeting_id=rngao56LTaSZaQdCX5mS3g%3D%3D
+Link to video presentation : https://conestogac.zoom.us/rec/play/1_eJ2HrDbX5SLdJtsL3HKertJ6Xk_TU9YR8uRBL_aNWgwJB4-9kOu0cpqGg6nmbrqe0V4tSlKCilGo9q._p9kJm8iQXZAg5br?autoplay=true&startTime=1718508775000
 
