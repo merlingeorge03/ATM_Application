@@ -34,5 +34,18 @@ namespace ATM_Application
             _accountList.Add(account);
         }
 
+        public bool IsAccountNumberUnique(int accountNumber)
+        {
+            foreach (Account account in _accountList)
+            {
+                if (account.GetAccountNumber().Equals(accountNumber))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
     }
 }

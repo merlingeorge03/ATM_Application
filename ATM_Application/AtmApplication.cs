@@ -12,14 +12,21 @@ namespace ATM_Application
             int choice;
             string exitChoice;
 
-            do
+            while (true)
             {
-                Console.WriteLine("============= ATM MAIN MENU =============");
+                Console.WriteLine("\n============= ATM MAIN MENU =============");
                 Console.WriteLine("1. Create Account");
                 Console.WriteLine("2. Select Account");
                 Console.WriteLine("3. Exit Application");
-                choice = int.Parse(Console.ReadLine());
 
+                //Checking if the entered option is a valid integer 
+                //if yes, then update the value of choice. Else throw error message
+                if (!int.TryParse(Console.ReadLine(), out choice))
+                {
+                    Console.WriteLine("Invalid input. Please enter a number(1-3).");
+                    continue;
+
+                }
                 switch (choice)
                 {
                     case 1:
@@ -34,49 +41,67 @@ namespace ATM_Application
                         exitChoice = Console.ReadLine().ToLower();
                         if (exitChoice == "y")
                         {
-                            Console.WriteLine("THANK YOU FOR CHOOSING THE ATM APPLICATION !!");
+                            //Message printed when user enters the option 'y'
+                            Console.WriteLine("\nTHANK YOU FOR CHOOSING THE ATM APPLICATION !!");
+                            return;
                         }
-                        else
+                        else if (exitChoice != "n")
                         {
-                            if (exitChoice != "n")
-                            {
-                                Console.WriteLine("Press y to exit and n to continue operations");
-                            }
-                            displayMainMenu();
+                            // Message printed if the any letter entered other than 'y' or 'n'
+                            Console.WriteLine("Invalid option entered. Please try again !!");
+
                         }
                         break;
                     default:
+                        // Message printed if the option entered is an integer which is more than 3
                         Console.WriteLine("Invalid option, Please try again !!");
                         break;
 
                 }
-            } while (choice != 3);
+            }
         }
 
         public void createAccount()
         {
+            int accountNumber;
             Console.WriteLine("====== 1. CREATE ACCOUNT MENU =====");
             Console.WriteLine("Enter Account Holder Name");
             string name = Console.ReadLine();
 
-            Console.WriteLine("Enter Account Number (Account number must be between 100 and 1000)");
-            int accountNumber = int.Parse(Console.ReadLine());
-
-            //Default accounts already created from 100 to 110. 
-            //Check if the user entered the same account number as default account number
-            if (accountNumber >= 100 && accountNumber <= 110)
+            if ((name != null) && !IsValidName(name))
             {
-                Console.WriteLine("Account Number already exists. Please enter another Account number");
-                accountNumber = int.Parse(Console.ReadLine());
+                Console.WriteLine("Invalid name entered !!! (Special characters, digits or white spaces not allowed.)");
+                return;
+
+            }
+
+            Console.WriteLine("Enter Account Number (Account number must be between 100 and 1000)");
+
+            //Checking if the entered account number is a valid integer  
+            if (!int.TryParse(Console.ReadLine(), out accountNumber))
+            {
+                Console.WriteLine("Invalid input. Please enter a number(100-1000).");
+                return;
+
+            }
+            if (accountNumber < 100 || accountNumber > 1000)
+            {
+                Console.WriteLine("Account number must be between 100 and 1000.");
+                return;
+            }
+            if (!_bank.IsAccountNumberUnique(accountNumber))
+            {
+                Console.WriteLine("Account number already exists.");
+                return;
             }
 
             Console.WriteLine("Enter Annual Interest Rate (Must be less than 3.0%)");
-            float interestRate= float.Parse(Console.ReadLine());
+            float interestRate = float.Parse(Console.ReadLine());
             if (interestRate > 3)
             {
                 Console.WriteLine("Annual Interest Rate must be less than 3.0%)");
             }
-            
+
 
             Console.WriteLine("Enter Initial Balance");
             float initialBalance = float.Parse(Console.ReadLine());
@@ -182,5 +207,20 @@ namespace ATM_Application
             Console.WriteLine("Press Enter to continue");
             Console.ReadLine();
         }
+
+        // Method to check if name entered is valid
+        public bool IsValidName(string name)
+        {
+            foreach (char c in name)
+            {
+                if (!char.IsLetter(c) || char.IsWhiteSpace(c))
+                {
+                    return false;
+                }
+            }
+            return true;
+            
+        }
     }
+
 }

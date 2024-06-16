@@ -18,7 +18,7 @@ namespace ATM_Application
             _accNo = accno;
             _annualIntrRate = annualIntrRate;
             _balance = initialBalance;
-            transactions.Add($"Account created with initial balance: {initialBalance:C}");
+            transactions.Add($"Initial balance: {initialBalance:C}");
         }
 
         //Modify the balance amount and transaction details when user opts for deposit amount
